@@ -1,6 +1,15 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import { doSignOut } from "../firebase/auth";
 
 export default function HomePage() {
+  const navigate  = useNavigate();
+
+  const handlelogout = async () => {
+    await doSignOut();
+    navigate("/");
+  }
+
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Header */}
@@ -11,8 +20,8 @@ export default function HomePage() {
           <a href="#" className="text-gray-700 hover:text-purple-700">Subjects</a>
           <a href="#" className="text-gray-700 hover:text-purple-700">My Progress</a>
           <a href="#" className="text-gray-700 hover:text-purple-700">Help</a>
-          <button className="ml-4 border border-purple-700 text-purple-700 px-3 py-1 rounded hover:bg-purple-700 hover:text-white">
-            Log in/Sign Up
+          <button className="ml-4 border border-purple-700 text-purple-700 px-3 py-1 rounded hover:bg-purple-700 hover:text-white" onClick={handlelogout}>
+            Log Out
           </button>
         </nav>
       </header>

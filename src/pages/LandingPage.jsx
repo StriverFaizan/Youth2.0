@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const courses = [
   {
@@ -27,7 +28,10 @@ const courses = [
   },
 ];
 
+
+
 export default function LandingPage() {
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Header */}
@@ -38,7 +42,7 @@ export default function LandingPage() {
           <a href="#" className="text-gray-700 hover:text-purple-700">Streams</a>
           <a href="#" className="text-gray-700 hover:text-purple-700">Courses</a>
           <a href="#" className="text-gray-700 hover:text-purple-700">Help</a>
-          <button className="ml-4 border border-purple-700 text-purple-700 px-3 py-1 rounded hover:bg-purple-700 hover:text-white">
+          <button className="ml-4 border border-purple-700 text-purple-700 px-3 py-1 rounded hover:bg-purple-700 hover:text-white" onClick={() => navigate("/login")}>
             Log in/Sign Up
           </button>
         </nav>
@@ -48,7 +52,8 @@ export default function LandingPage() {
       <section className="bg-purple-800 text-white text-center py-30">
         <h1 className="text-4xl font-bold mb-4">Empowering Youth Through Education</h1>
         <p className="mb-6">Access quality educational content. Learn at your own pace, anytime, anywhere.</p>
-        <button className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-6 rounded">
+        <button className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-6 rounded"
+        onClick={() => navigate("/login")}>
           Start Learning Now
         </button>
       </section>
