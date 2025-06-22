@@ -28,8 +28,6 @@ const courses = [
   },
 ];
 
-
-
 export default function LandingPage() {
   const navigate = useNavigate();
   return (
