@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { doSignOut } from "../firebase/auth";
+import { auth } from "../firebase/firebase";
 
 export default function HomePage() {
   const navigate  = useNavigate();
+  const [showMenu, setShowMenu] = useState(false);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setUser(user);
+    });
+    return () => unsubscribe();
+  }, []);
 
   const handlelogout = async () => {
     await doSignOut();
@@ -15,14 +25,48 @@ export default function HomePage() {
       {/* Header */}
       <header className="bg-white shadow p-4 flex justify-between items-center">
         <div className="text-xl font-bold text-purple-800">Name of Website</div>
-        <nav className="space-x-4">
+        <nav className="space-x-4 flex items-center">
           <a href="#" className="text-gray-700 hover:text-purple-700">Home</a>
           <a href="#" className="text-gray-700 hover:text-purple-700">Subjects</a>
           <a href="#" className="text-gray-700 hover:text-purple-700">My Progress</a>
           <a href="#" className="text-gray-700 hover:text-purple-700">Help</a>
-          <button className="ml-4 border border-purple-700 text-purple-700 px-3 py-1 rounded hover:bg-purple-700 hover:text-white" onClick={handlelogout}>
-            Log Out
-          </button>
+          {user && user.photoURL ? (
+            <div className="relative inline-block">
+              <div
+                className="flex items-center ml-4 cursor-pointer"
+                onClick={() => setShowMenu((prev) => !prev)}
+              >
+                <img
+                  src={user.photoURL}
+                  alt="User"
+                  className="w-10 h-10 rounded-full border-2 border-purple-700"
+                />
+                <span
+                  className={`ml-1 text-lg transition-transform duration-200 ${
+                    showMenu ? "rotate-180" : ""
+                  }`}
+                >
+                  ▼
+                </span>
+              </div>
+              {showMenu && (
+                <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg z-10">
+                  <a href="#" className="block px-4 py-2 text-gray-700 hover:bg-purple-100">Profile</a>
+                  <a href="#" className="block px-4 py-2 text-gray-700 hover:bg-purple-100">Settings</a>
+                  <button
+                    className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-purple-100"
+                    onClick={handlelogout}
+                  >
+                    Log Out
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <button className="ml-4 border border-purple-700 text-purple-700 px-3 py-1 rounded hover:bg-purple-700 hover:text-white" onClick={handlelogout}>
+              Log Out
+            </button>
+          )}
         </nav>
       </header>
 
@@ -78,5 +122,5 @@ export default function HomePage() {
         </div>
       </section>
     </div>
-  );
+      );
 }
