@@ -1,34 +1,32 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
+
 const courses = [
-  {
-    title: "Mathematics",
-    class: "Class 10 (Arts)",
-    bgColor: "bg-purple-100",
-    icon: "/art.jpg", // Replace with actual image path
+ {
+    class: "Class 9",
+    bgColor: "bg-white",
+    icon: "/art1.avif",
   },
   {
-    title: "Science",
-    class: "Class 10 (Science)",
-    bgColor: "bg-purple-100",
-    icon: "/science-icon.png",
+    class: "Class 10",
+    bgColor: "bg-white",
+    icon: "/science.png",
   },
   {
-    title: "Social Science",
     class: "Class 11 (PCM)",
-    bgColor: "bg-purple-100",
-    icon: "/social-icon.png",
+    bgColor: "bg-white",
+    icon: "/pcm.jpeg",
   },
   {
-    title: "English",
     class: "Class 11(PCB)",
-    bgColor: "bg-purple-100",
-    icon: "/english-icon.png",
+    bgColor: "bg-white",
+    icon: "/pcb.jpeg",
   },
 ];
 
 export default function LandingPage() {
+  
   const navigate = useNavigate();
   return (
     <div className="min-h-screen bg-gray-100">
@@ -75,9 +73,11 @@ export default function LandingPage() {
 
     <div className="p-6 bg-white rounded-lg shadow-sm">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-800">Popular Courses</h2>
-        <button className="text-orange-500 bg-orange-100 hover:bg-orange-200 px-4 py-2 rounded-md font-semibold">
-          View All Courses
+        <h2 className="text-2xl font-bold text-gray-800">Featured Subjects</h2>
+         <button
+           onClick={() => navigate("/courses")}
+            className="text-orange-500 bg-orange-100 hover:bg-orange-200 px-4 py-2 rounded-md font-semibold">
+            View All Courses
         </button>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
@@ -104,7 +104,47 @@ export default function LandingPage() {
         <li className="mb-1">Second item</li>
         <li className="mb-1">Third item</li>
       </ul>
-       </div>
+   </div>
+
+
+
+           {/* Footer */}
+<footer className="bg-purple-800 text-white mt-10">
+  <div className="max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+    <div>
+      <h3 className="font-bold text-lg mb-2">About Us</h3>
+      <p className="text-sm">
+        Empowering youth with accessible and quality education. Learn at your own pace, anytime.
+      </p>
+    </div>
+    <div>
+      <h3 className="font-bold text-lg mb-2">Quick Links</h3>
+      <ul className="space-y-1 text-sm">
+        <li><a href="#" className="hover:underline">Home</a></li>
+        <li><a href="#" className="hover:underline">Courses</a></li>
+        <li><a href="#" className="hover:underline">Streams</a></li>
+        <li><a href="#" className="hover:underline">Help</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3 className="font-bold text-lg mb-2">Contact</h3>
+      <p className="text-sm">Email: support@example.com</p>
+      <p className="text-sm">Phone: +91 12345 67890</p>
+    </div>
+    <div>
+      <h3 className="font-bold text-lg mb-2">Follow Us</h3>
+      <div className="flex space-x-4 mt-2">
+        <a href="#" className="hover:text-orange-300">Facebook</a>
+        <a href="#" className="hover:text-orange-300">Instagram</a>
+        <a href="#" className="hover:text-orange-300">YouTube</a>
+      </div>
+    </div>
+  </div>
+  <div className="text-center text-sm text-gray-300 border-t border-purple-700 py-4">
+    © {new Date().getFullYear()} Name of Website. All rights reserved.
+  </div>
+</footer>
+
   </div>
   );
 }
