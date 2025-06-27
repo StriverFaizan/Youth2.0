@@ -29,7 +29,7 @@ export default function LoginPage() {
     try {
       if (isLogin) {
         await doSignInWithEmailAndPassword(formData.email, formData.password)
-        navigate("/home")
+        navigate("/select")
         // Optionally redirect or show success
       } else {
         if (formData.password !== formData.confirmPassword) {
@@ -37,7 +37,7 @@ export default function LoginPage() {
           return
         }
         await doCreateUserWithEmailAndPassword(formData.email, formData.password)
-        navigate("/home")
+        navigate("/select")
         // Optionally update profile with name
       }
     } catch (err) {

@@ -31,8 +31,7 @@ export default function HomePage() {
 
    <div className="relative min-h-screen">
     {/* Content blur & dim effect */}
-    <div className={`transition-all duration-300 ${showPopup ? "blur-md brightness-75" : ""}`}>
-
+    
       {/* Header */}
       <header className="bg-white shadow p-4 flex justify-between items-center">
         <div className="text-xl font-bold text-purple-800">Name of Website</div>
@@ -96,35 +95,9 @@ export default function HomePage() {
           ))}
         </div>
       </section>
-    </div>
+    
 
-        {/* Popup Modal */}
- {showPopup && (
-  <div className="absolute inset-0 flex items-center justify-center z-50">
-    <div className="bg-white p-6 rounded-lg w-96 text-center shadow-2xl">
-      <h2 className="text-xl font-semibold mb-4">Select Your Class</h2>
-      <div className="space-y-2">
-        {["Class 9", "Class 10", "Class 11", "Class 12"].map((cls, idx) => (
-          <button
-            key={idx}
-            onClick={() => handleClassSelect(cls)}
-            className="block w-full bg-purple-600 hover:bg-purple-700 text-white py-2 rounded"
-          >
-            {cls}
-          </button>
-        ))}
-      </div>
-      <button
-        onClick={() => setShowPopup(false)}
-        className="mt-4 text-sm text-gray-600 hover:underline"
-      >
-        Cancel
-      </button>
-    </div>
-  </div>
-)}
-
-
+  
     </div>
   );
 }

@@ -98,14 +98,24 @@ export default function LandingPage() {
       </div>
     </div>
 
-    <div className="p-6 h-90 bg-white rounded-lg shadow-sm"> 
-       <h2 className="text-2xl font-bold text-gray-800">Why (name of website)?</h2>
-       <ul className="list-disc list-inside">
-        <li className="mb-1">AI helping assistants available for 24*7 for doubts</li>
-        <li className="mb-1">Second item</li>
-        <li className="mb-1">Third item</li>
-      </ul>
-   </div>
+<div className="flex flex-col md:flex-row items-start max-w-7xl mx-auto p-6 md:p-12 gap-8">
+  {/* Left Side Content */}
+  <div className="w-full md:w-1/2 p-6 sm:p-8 space-y-4">
+    <h2 className="text-3xl font-bold text-gray-800">
+      Why <span className="text-orange-500">Name of Website</span>
+    </h2>
+    <ul className="list-disc list-inside text-gray-700 space-y-2 text-base leading-relaxed">
+      <li>AI-powered assistants available 24×7 for doubt solving</li>
+      <li>High-quality, curriculum-aligned content for all classes</li>
+      <li>Track your progress and learn at your own pace</li>
+    </ul>
+  </div>
+
+  
+  <div className="w-full md:w-1/2">
+    <img src="/example-image.png" alt="Illustration" className="w-full h-auto rounded-lg shadow" />
+  </div>
+</div>
 
 
 
