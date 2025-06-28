@@ -4,8 +4,13 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { doSignInWithEmailAndPassword, doSignInWithGoogle, doCreateUserWithEmailAndPassword } from "../firebase/auth"
 import { useAuth } from "../contexts/authContext"
+import { sendPasswordResetEmail } from "firebase/auth"
 
 export default function LoginPage() {
+  const handleForgetPassword = (e) => {
+    e.preventDefault();
+    navigate("/forgetpass")
+  }
   const [isLogin, setIsLogin] = useState(true)
   const [formData, setFormData] = useState({
     email: "",
@@ -193,7 +198,7 @@ export default function LoginPage() {
 
             {isLogin && (
               <div className="flex items-center justify-between text-sm">
-                <a href="#" className="text-purple-700 hover:text-purple-800 font-bold">
+                <a href="#" className="text-purple-700 hover:text-purple-800 font-bold" onClick={handleForgetPassword}>
                   Forgot password?
                 </a>
               </div>
@@ -241,9 +246,6 @@ export default function LoginPage() {
               }}
             >
               Continue with Google
-            </button>
-            <button className="w-full border border-gray-300 text-gray-700 font-bold py-2 px-6 rounded-lg hover:bg-gray-50 transition-colors">
-              Continue with Facebook
             </button>
           </div>
 
