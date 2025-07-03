@@ -1,10 +1,10 @@
-"use client"
-
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { doSignInWithEmailAndPassword, doSignInWithGoogle, doCreateUserWithEmailAndPassword } from "../firebase/auth"
 import { useAuth } from "../contexts/authContext"
 import { sendPasswordResetEmail } from "firebase/auth"
+import { db } from "../firebase/firebase"
+import { doc, getDoc, setDoc } from "firebase/firestore"
 
 export default function LoginPage() {
   const handleForgetPassword = (e) => {
@@ -34,14 +34,18 @@ export default function LoginPage() {
     try {
       if (isLogin) {
         await doSignInWithEmailAndPassword(formData.email, formData.password)
-        navigate("/select")
+        navigate("/home")
         // Optionally redirect or show success
       } else {
         if (formData.password !== formData.confirmPassword) {
           setError("Passwords do not match.")
           return
         }
-        await doCreateUserWithEmailAndPassword(formData.email, formData.password)
+        const userCredential = await doCreateUserWithEmailAndPassword(formData.email, formData.password)
+        await setDoc(doc(db, "users", userCredential.user.uid), {
+          name: formData.name,
+          email: formData.email,
+        })
         navigate("/select")
         // Optionally update profile with name
       }
@@ -66,6 +70,41 @@ export default function LoginPage() {
           break
         default:
           setError("An unexpected error occurred. Please try again.")
+      }
+    }
+  }
+
+  const handleGoogleSignIn = async (e) => {
+    e.preventDefault();
+    setError("");
+    try {
+      const result = await doSignInWithGoogle();
+      const user = result.user;
+      // Check if user already exists in Firestore
+      const userDocRef = doc(db, "users", user.uid);
+      const userDoc = await getDoc(userDocRef);
+      if (!userDoc.exists()) {
+        await setDoc(userDocRef, {
+          name: user.displayName,
+          email: user.email,
+        });
+        navigate("/select")
+      } else if (userDoc.data().class && userDoc.data().stream) {
+        navigate("/home")
+      } else {
+        navigate("/select")
+      }  
+      
+    } catch (err) {
+      switch (err.code) {
+        case "auth/popup-closed-by-user":
+          setError("Google sign-in was cancelled.");
+          break;
+        case "auth/cancelled-popup-request":
+          setError("Cancelled previous Google sign-in request.");
+          break;
+        default:
+          setError("Google sign-in failed. Please try again.");
       }
     }
   }
@@ -223,27 +262,7 @@ export default function LoginPage() {
           <div className="space-y-3">
             <button
               className="w-full border border-gray-300 text-gray-700 font-bold py-2 px-6 rounded-lg hover:bg-gray-50 transition-colors"
-              onClick={async (e) => {
-                e.preventDefault();
-                setError("");
-                try {
-                  await doSignInWithGoogle();
-                  navigate("/home");
-                  // Optionally redirect or show success
-                } catch (err) {
-                  // Customize error messages for Google sign-in
-                  switch (err.code) {
-                    case "auth/popup-closed-by-user":
-                      setError("Google sign-in was cancelled.");
-                      break;
-                    case "auth/cancelled-popup-request":
-                      setError("Cancelled previous Google sign-in request.");
-                      break;
-                    default:
-                      setError("Google sign-in failed. Please try again.");
-                  }
-                }
-              }}
+              onClick={handleGoogleSignIn}
             >
               Continue with Google
             </button>

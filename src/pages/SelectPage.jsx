@@ -1,23 +1,34 @@
-// src/pages/SelectPage.jsx
 import { useNavigate } from "react-router-dom"
 import { useState } from "react"
+import { db } from "../firebase/firebase"
+import { doc, updateDoc } from "firebase/firestore"
+import { getAuth } from "firebase/auth"
+
 
 export default function SelectPage() {
   const [stream, setStream] = useState("")
   const [selectedClass, setSelectedClass] = useState("")
   const navigate = useNavigate()
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
     if (!stream || !selectedClass) {
       alert("Please select both stream and class.")
       return
     }
 
-    // Optional: Save selection to localStorage or context if needed
-    // localStorage.setItem("userStream", stream);
-    // localStorage.setItem("userClass", selectedClass);
-
-    navigate("/home")
+    try {
+      const auth = getAuth();
+      const user = auth.currentUser;
+      if (user) {
+        await updateDoc(doc(db, "users", user.uid), {
+          stream,
+          class: selectedClass,
+        });
+      }
+      navigate("/home");
+    } catch (error) {
+      alert("Failed to save selection: " + error.message);
+    }
   }
 
   return (
